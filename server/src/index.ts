@@ -4,17 +4,12 @@ import fastify from 'fastify';
 import posts from './routers/posts';
 import { createRouter, createContext, prisma } from './utils/trpc';
 import dotenv from 'dotenv'
+import root from './routers/root';
 
 dotenv.config();
 
 export const appRouter = createRouter()
-  .query('hello', {
-    resolve() {
-      return {
-        greeting: 'hello',
-      }
-    }
-  })
+  .merge(root)
   .merge(posts);
 
 export type AppRouter = typeof appRouter;
