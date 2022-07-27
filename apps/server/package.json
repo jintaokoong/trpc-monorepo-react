@@ -1,0 +1,27 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node -r tsconfig-paths/register -r @swc-node/register src/index.ts",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@swc-node/register": "^1.5.1",
+    "@types/node": "^18.6.1",
+    "tsconfig-paths": "^4.0.0",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "@fastify/cors": "^8.0.0",
+    "@trpc/server": "^9.26.2",
+    "fastify": "^4.3.0",
+    "zod": "^3.17.10"
+  }
+}
