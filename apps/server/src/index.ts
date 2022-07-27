@@ -1,23 +1,18 @@
+import cors from '@fastify/cors';
 import { fastifyTRPCPlugin } from '@trpc/server/adapters/fastify';
 import fastify from 'fastify';
-import cors from '@fastify/cors';
-import * as trpc from '@trpc/server'
+import posts from './routers/posts';
+import { createRouter, createContext } from './utils/trpc';
 
-// define context
-const createContext = (_?: any): { user?: string } => {
-  return {
-  }
-}
-type Context = trpc.inferAsyncReturnType<typeof createContext>;
-
-export const appRouter = trpc.router<Context>()
+export const appRouter = createRouter()
   .query('hello', {
     resolve() {
       return {
-        greeting: "hello world",
+        greeting: 'hello',
       }
     }
-  });
+  })  
+.merge(posts);
 
 export type AppRouter = typeof appRouter;
 
@@ -31,7 +26,7 @@ server.register(fastifyTRPCPlugin, {
   prefix: "/trpc",
   trpcOptions: {
     router: appRouter,
-    createContext
+    createContext,
   },
 })
 
