@@ -9,14 +9,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mantine/core": "^5.0.0",
+    "@mantine/hooks": "^5.0.0",
     "@trpc/client": "^9.26.2",
     "@trpc/react": "^9.26.2",
     "@trpc/server": "^9.26.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.4.0",
     "react-query": "3"
   },
   "devDependencies": {
+    "@emotion/react": "^11.9.3",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "@vitejs/plugin-react": "^2.0.0",

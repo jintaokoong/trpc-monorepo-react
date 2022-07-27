@@ -1,54 +1,43 @@
 import { z } from 'zod';
-import { v4 } from 'uuid';
 import { createRouter } from "../utils/trpc";
-
-interface Post {
-  id: string;
-  content: string;
-}
-
-const memoryPosts: Post[] = [];
 
 const posts = createRouter()
   .query("posts", {
-    resolve() {
-      return memoryPosts;
+    resolve({ ctx }) {
+      return ctx.prisma.post.findMany();
     }
   })
   .query("getPost", {
     input: z.string(),
-    resolve({ input }) {
-      return memoryPosts.find(post => post.id === input);
+    resolve({ input, ctx }) {
+      return ctx.prisma.post.findFirst({ where: { id: input } });
     }
   })
   .mutation('createPost', {
     input: z.object({ content: z.string().min(1) }),
-    resolve({ input }) {
-      const post = { ...input, id: v4() };
-      memoryPosts.push(post);
-      return post;
+    resolve({ input, ctx }) {
+      return ctx.prisma.post.create({
+        data: {
+          content: input.content,
+        }
+      });
     }
   })
   .mutation('deletePost', {
     input: z.string(),
-    resolve({ input }) {
-      const index = memoryPosts.findIndex(post => post.id === input);
-      if (index === -1) {
-        throw new Error(`post ${input} not found`);
-      }
-      memoryPosts.splice(index, 1);
-      return input;
+    resolve({ input, ctx }) {
+      return ctx.prisma.post.delete({ where: { id: input } });
     }
   })
   .mutation('updatePost', {
     input: z.object({ id: z.string(), content: z.string().min(1) }),
-    resolve({ input }) {
-      const index = memoryPosts.findIndex(post => post.id === input.id);
-      if (index === -1) {
-        throw new Error(`post ${input.id} not found`);
-      }
-      memoryPosts[index] = { ...memoryPosts[index], ...input };
-      return input;
+    resolve({ input, ctx }) {
+      return ctx.prisma.post.update({
+        where: { id: input.id },
+        data: {
+          content: input.content,
+        },
+      });
     }
   });
 

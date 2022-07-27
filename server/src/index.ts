@@ -2,7 +2,7 @@ import cors from '@fastify/cors';
 import { fastifyTRPCPlugin } from '@trpc/server/adapters/fastify';
 import fastify from 'fastify';
 import posts from './routers/posts';
-import { createRouter, createContext } from './utils/trpc';
+import { createRouter, createContext, prisma } from './utils/trpc';
 
 export const appRouter = createRouter()
   .query('hello', {
@@ -11,8 +11,8 @@ export const appRouter = createRouter()
         greeting: 'hello',
       }
     }
-  })  
-.merge(posts);
+  })
+  .merge(posts);
 
 export type AppRouter = typeof appRouter;
 
@@ -34,10 +34,12 @@ const PORT = 4000;
 
 (async () => {
   try {
+    await prisma.$connect();
+    console.log("✨ connected to database");
     const address = await server.listen({
       port: PORT,
     })
-    console.log(`server listening on ${address}`)
+    console.log(`🚀 server listening on ${address}`)
   } catch (err) {
     server.log.error(err);
     process.exit(1);
