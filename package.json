@@ -2,10 +2,16 @@
   "name": "trpc-mono",
   "version": "1.0.0",
   "description": "",
+  "private": true,
   "main": "index.js",
+  "workspaces": [
+    "packages/*",
+    "client",
+    "server"
+  ],
   "scripts": {
-    "start:server": "pnpm --filter server dev",
-    "start:client": "pnpm --filter client dev"
+    "start:server": "yarn --cwd server dev",
+    "start:client": "yarn --cwd client dev"
   },
   "keywords": [],
   "author": "",
