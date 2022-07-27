@@ -3,6 +3,9 @@ import { fastifyTRPCPlugin } from '@trpc/server/adapters/fastify';
 import fastify from 'fastify';
 import posts from './routers/posts';
 import { createRouter, createContext, prisma } from './utils/trpc';
+import dotenv from 'dotenv'
+
+dotenv.config();
 
 export const appRouter = createRouter()
   .query('hello', {
@@ -41,7 +44,7 @@ const PORT = 4000;
     })
     console.log(`🚀 server listening on ${address}`)
   } catch (err) {
-    server.log.error(err);
+    console.error(err);
     process.exit(1);
   }
 })();
